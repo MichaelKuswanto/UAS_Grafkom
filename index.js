@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import { Box } from "./box.js";
 import { OrbitControls } from "./node_modules/three/examples/jsm/controls/OrbitControls.js"
 import { FirstPersonControls } from "./node_modules/three/examples/jsm/controls/FirstPersonControls.js"
 import { TrackballControls } from "./node_modules/three/examples/jsm/controls/TrackballControls.js"
@@ -21,9 +20,10 @@ document.body.appendChild(renderer.domElement);
 
 var loader = new GLTFLoader();
 
-const scenePath = './assets/indomie.gltf'
+const scenePath01 = './assets/indomie.gltf'
+const scenePath02 = './assets/mangkok.glb'
 
-loader.load(scenePath, (gltf) => {
+loader.load(scenePath01, (gltf) => {
     const model = gltf.scene;
     scene.add(model);
     model.position.set(2, 0, 0);
@@ -38,7 +38,21 @@ loader.load(scenePath, (gltf) => {
     animate();
 });
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft white light
+loader.load(scenePath02, (gltf) => {
+    const model = gltf.scene;
+    scene.add(model);
+    model.position.set(-2, 0, 0);
+    model.rotation.set(0.5,0,0)
+    const animate = () => {
+
+        requestAnimationFrame(animate);
+        model.rotation.y += 0.01
+        renderer.render(scene, cam);
+    };
+    animate();
+});
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
