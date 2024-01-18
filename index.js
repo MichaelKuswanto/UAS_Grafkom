@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from "./node_modules/three/examples/jsm/controls/OrbitControls.js"
 import { FirstPersonControls } from "./node_modules/three/examples/jsm/controls/FirstPersonControls.js"
+import { PointerLockControls } from './node_modules/three/examples/jsm/controls/PointerLockControls.js';
 import { TrackballControls } from "./node_modules/three/examples/jsm/controls/TrackballControls.js"
 import { GLTFLoader } from './node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -21,9 +22,25 @@ var loader = new GLTFLoader();
 
 export { loader, scene, cam, renderer };
 
-let clock = new THREE.Clock();
-let control = new FirstPersonControls(cam, renderer.domElement);
-control.lookSpeed = 0.1;
+let controlsEnabled = false;
+let controls = new PointerLockControls(cam, document.body);
+
+document.addEventListener('click', function () {
+    if (!controlsEnabled) {
+        controls.lock();
+    }
+}, false);
+
+// Listen for lock and unlock events
+controls.addEventListener('lock', function () {
+    controlsEnabled = true;
+});
+
+controls.addEventListener('unlock', function () {
+    controlsEnabled = false;
+});
+
+scene.add(controls);
 
 import loadIndomie1 from './models/indomie1.js';
 import loadIndomie2 from './models/indomie2.js';
@@ -47,10 +64,10 @@ import loadAtap from './models/atap.js';
 // loadIndomie5();
 // loadMentah();
 // loadMatang();
-// loadKompor();
+loadKompor();
 // loadAir();
-// loadPanci();
-//loadMeja();
+loadPanci();
+loadMeja();
 loadSwalayan();
 loadRak();
 loadLantai();
@@ -200,35 +217,44 @@ if (indomie4e) {
     indomie4e.rotation.set(4.2, 0, 9.5);
 }
 
-let lookSpeed = 0.05; 
-control.lookSpeed = lookSpeed;
-document.addEventListener('keydown', (event) => {
-    switch (event.code) {
-        case 'ArrowUp':
-            control.moveForward(100); // Pergi ke depan
-            break;
-        case 'ArrowDown':
-            control.moveForward(-100); // Pergi ke belakang
-            break;
-        case 'ArrowLeft':
-            control.moveRight(-100); // Pergi ke kiri
-            break;
-        case 'ArrowRight':
-            control.moveRight(100); // Pergi ke kanan
-            break;
+
+document.addEventListener('keydown', function (event) {
+    if (controlsEnabled) {
+        switch (event.key) {
+            case 'w':
+                // Handle forward movement
+                controls.moveForward(0.1);
+                break;
+            case 's':
+                // Handle backward movement
+                controls.moveForward(-0.1);
+                break;
+            case 'a':
+                // Handle left movement
+                controls.moveRight(-0.1);
+                break;
+            case 'd':
+                // Handle right movement
+                controls.moveRight(0.1);
+                break;
+            case 'ArrowUp':
+                // Handle camera moving up
+                controls.moveUp(0.1);
+                break;
+            case 'ArrowDown':
+                // Handle camera moving down
+                controls.moveUp(-0.1);
+                break;
+        }
     }
 });
 
 function animate() {
     requestAnimationFrame(animate);
-    
-    const delta = clock.getDelta();
-    control.update(delta); // Panggil update untuk menggerakkan kontrol
-
     renderer.render(scene, cam);
 }
 
-animate();
+animate()
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 5);
 scene.add(ambientLight);
