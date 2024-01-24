@@ -41,21 +41,14 @@ const loadRak = () => {
 
         function handleClickOnRak() {
             // Set camera position and lookAt based on your desired view
-            cam.position.set(0, -1.2, 3); // Adjust the coordinates based on your desired position
+            cam.position.set(0, -0.5, 4); // Adjust the coordinates based on your desired position
 
-            const lookAtPosition = new THREE.Vector3(0, 0, 3); // Adjust the coordinates based on your desired target
+            const lookAtPosition = new THREE.Vector3(0, -0.7, 3); // Adjust the coordinates based on your desired target
             cam.lookAt(lookAtPosition);
 
             // Remove the event listener to prevent additional clicks
             window.removeEventListener('click', onClick);
         }
-
-        const animate = () => {
-            requestAnimationFrame(animate);
-            renderer.render(scene, cam);
-        };
-
-        animate();
     });
 };
 

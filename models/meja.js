@@ -1,20 +1,14 @@
 import { loader, scene, cam, renderer } from '../index.js';
 
-const loadMeja = () => {
-    const sceneMeja = './assets/industrial_table.glb';
+const loadMeja = (x, y, z) => {
+    const sceneMeja = './assets/meja.glb';
 
     loader.load(sceneMeja, (gltf) => {
         const model = gltf.scene;
         scene.add(model);
-        model.position.set(-4, 0, 1);
-        model.scale.set(1, 1, 1);
-        model.rotation.set(0, 0.2, -0.03)
-        const animate = () => {
-
-            requestAnimationFrame(animate);
-            renderer.render(scene, cam);
-        };
-        animate();
+        model.position.set(x,y,z);
+        model.scale.set(0.3, 0.3, 0.3);
+        model.rotation.set(0, 1.58, 0)
     });
 };
 

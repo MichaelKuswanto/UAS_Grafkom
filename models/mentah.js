@@ -1,28 +1,25 @@
 import { loader, scene, cam, renderer } from '../index.js';
+import * as THREE from 'three';
 
 const loadMentah= () => {
     const sceneMentah = './assets/MIE_MENTAH.glb';
 
     loader.load(sceneMentah, (gltf) => {
         const model = gltf.scene;
-        const initialPosition = new THREE.Vector3(0, 0.8, 0.3);
-        const resetPositionThresholdX = -4.0;
-        const resetPositionThresholdY = 3.0; 
+        const initialPosition = new THREE.Vector3(-3.55, 0, 1.25);
+        const resetPositionThresholdY = -1.05; 
     
         scene.add(model);
         model.position.copy(initialPosition);
-        model.scale.set(0.26, 0.26, 0.26);
-        model.rotation.set(5, 0.3, 9.5);
+        model.scale.set(0.08, 0.08, 0.08);
+        model.rotation.set(0, 0, 1.58);
     
         const animate = () => {
             requestAnimationFrame(animate);
-            //controls.update();
-            if (model.position.x < resetPositionThresholdX || model.position.y > resetPositionThresholdY) {
-                model.position.copy(initialPosition); 
+            if (model.position.y < resetPositionThresholdY) {
+                scene.remove(model);
             } else {
-                model.position.x -= 0.009;
-                model.position.y += 0.003;
-                model.position.z += 0.0016;
+                model.position.y -= 0.05;
             }
     
             renderer.render(scene, cam);

@@ -1,31 +1,28 @@
 import { loader, scene, cam, renderer } from '../index.js';
+import * as THREE from 'three';
 
 const loadMatang = () => {
-    const sceneMatang = './assets/MANGKOKDANMIE.glb';
+    const sceneMatang = './assets/miematang0.glb';
 
     loader.load(sceneMatang, (gltf) => {
         const model = gltf.scene;
+        const initialPosition = new THREE.Vector3(-3.5, -0.08, 3);
+        const resetPositionThresholdY = -1.45; 
+    
         scene.add(model);
-        model.position.set(-9, -4, 2);
-        model.scale.set(0.7, 0.7, 0.7);
+        model.position.copy(initialPosition);
+        model.scale.set(1.8, 1.8, 1.8);
         model.rotation.set(0, 0, 0);
-
-        if (gltf.animations && gltf.animations.length > 0) {
-            const mixer = new THREE.AnimationMixer(model);
-            const clips = gltf.animations;
-            const action = mixer.clipAction(clips[0]);
-            action.play();
-
-            const clock = new THREE.Clock();
-            function animate()  {
-                const deltaTime = clock.getDelta();
-                mixer.update(deltaTime);
-                renderer.render(scene, cam);
+    
+        const animate = () => {
+            if (model.position.y < resetPositionThresholdY) {
+                return;
             }
-            renderer.setAnimationLoop(animate);
-        } else {
-            console.error("No animations found in the GLTF file.");
-        }
+            model.position.y -= 0.07;
+            renderer.render(scene, cam);
+            requestAnimationFrame(animate);
+        };
+        animate();
     });
 };
 
