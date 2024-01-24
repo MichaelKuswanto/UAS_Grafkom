@@ -2,7 +2,7 @@ import { loader, scene, cam, renderer } from '../index.js';
 import loadMentah from './mentah.js';
 import * as THREE from 'three';
 
-const loadIndomie1 = (x,y,z) => {
+const loadIndomie1 = (x, y, z) => {
     const sceneIndomie1 = './assets/indomie.gltf';
 
     return new Promise((resolve) => {
@@ -48,7 +48,20 @@ const loadIndomie1 = (x,y,z) => {
 
                 // Remove the event listener to prevent additional clicks
                 window.removeEventListener('click', onClick);
-                
+
+                // Set a timeout to revert the model to its initial position after a delay (in milliseconds)
+                setTimeout(() => {
+                    resetIndomiePosition();
+                }, 3000); // Change 3000 to the desired delay in milliseconds
+            }
+
+            function resetIndomiePosition() {
+                // Set the model back to its initial position
+                indomieModel.position.set(x, y, z);
+                indomieModel.rotation.set(4.2, 0, 9.5);
+
+                // Reattach the event listener for future clicks
+                window.addEventListener('click', onClick);
             }
 
             // Event listener for mouse click
