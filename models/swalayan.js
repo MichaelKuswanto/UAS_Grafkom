@@ -17,7 +17,7 @@ const createSwalayanInstance = (position, rotation) => {
 };
 
 const loadSwalayan = () => {
-    createSwalayanInstance({ x: 0, y: -3, z: 4.5 }, { x: 0, y: 0, z: 0 });
+    //createSwalayanInstance({ x: 0, y: -3, z: 4.5 }, { x: 0, y: 0, z: 0 });
     createSwalayanInstance({ x: 0, y: -3, z: -4.5 }, { x: 0, y: 3.15, z: 0 });
     createSwalayanInstance({ x: 4.5, y: -3, z: 0 }, { x: 0, y: 1.58, z: 0 });
     createSwalayanInstance({ x: -4.5, y: -3, z: 0 }, { x: 0, y: -1.58, z: 0 });
