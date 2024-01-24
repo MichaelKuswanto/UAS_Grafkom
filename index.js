@@ -1,7 +1,5 @@
 import * as THREE from 'three'
-import { OrbitControls } from "./node_modules/three/examples/jsm/controls/OrbitControls.js"
-import { FirstPersonControls } from "./node_modules/three/examples/jsm/controls/FirstPersonControls.js"
-import { TrackballControls } from "./node_modules/three/examples/jsm/controls/TrackballControls.js"
+import { PointerLockControls } from './node_modules/three/examples/jsm/controls/PointerLockControls.js';
 import { GLTFLoader } from './node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 
 const cursorElement = document.createElement('div');
@@ -33,9 +31,34 @@ var loader = new GLTFLoader();
 
 export { loader, scene, cam, renderer };
 
-let clock = new THREE.Clock();
-let control = new FirstPersonControls(cam, renderer.domElement);
-control.lookSpeed = 0.1;
+let controlsEnabled = false;
+let controls = new PointerLockControls(cam, document.body);
+
+document.addEventListener('click', function () {
+    if (!controlsEnabled) {
+        controls.lock();
+    }
+}, false);
+
+// Listen for lock and unlock events
+controls.addEventListener('lock', function () {
+    controlsEnabled = true;
+    cursorElement.style.display = "block";
+});
+
+controls.addEventListener('unlock', function () {
+    controlsEnabled = false;
+    cursorElement.style.display = 'block';
+});
+
+document.addEventListener('mousemove', function (event) {
+    if (controlsEnabled) {
+        cursorElement.style.left = event.clientX + 'px';
+        cursorElement.style.top = event.clientY + 'px';
+    }
+}); 
+
+scene.add(controls);
 
 import loadIndomie1 from './models/indomie1.js';
 import loadIndomie2 from './models/indomie2.js';
@@ -45,201 +68,136 @@ import loadKompor from './models/kompor.js';
 import loadPanci from './models/panci.js';
 import loadMeja from './models/meja.js';
 import loadSwalayan from './models/swalayan.js';
-import loadOpenSwalayan from './models/open_swalayan.js';
 import loadRak from './models/rak.js';
 import loadLantai from './models/lantai.js';
 import loadAtap from './models/atap.js';
+import loadMangkok from './models/mangkok.js';
+import loadOpenSwalayan from './models/open_swalayan.js';
+import loadUdang from './models/udang.js';
+import loadbeef from './models/daging.js';
+import loadegg from './models/telurceplok.js';
+import loadTray from './models/tray.js';
 
-// loadIndomie2();
-// loadIndomie3();
-// loadIndomie4();
-// loadIndomie5();
-// loadMentah();
-// loadMatang();
-// loadKompor();
-// loadAir();
-// loadPanci();
-//loadMeja();
+loadKompor();
+loadTray();
+loadPanci();
+loadMeja();
 loadSwalayan();
 loadOpenSwalayan();
 loadRak();
 loadLantai();
 loadAtap();
+loadMangkok();
+loadUdang();
+loadegg();
+loadbeef();
 
-const indomie1a = await loadIndomie1();
-const indomie1b = await loadIndomie1();
-const indomie1c = await loadIndomie1();
-const indomie1d = await loadIndomie1();
-const indomie1e = await loadIndomie1();
+//indomie1 (indomie goreng) 
+var indomie_goreng;
+for (let i = 0; i < 6; i++) {
+    indomie_goreng  = await loadIndomie1(-2+i*0.75, -0.43, -0.8);;
 
-if (indomie1a) {
-    indomie1a.position.set(-2, -0.43, -0.8);
-    indomie1a.scale.set(0.2, 0.2, 0.2);
-    indomie1a.rotation.set(4.2, 0, 9.5);
 }
 
-if (indomie1b) {
-    indomie1b.position.set(-1, -0.43, -0.8);
-    indomie1b.scale.set(0.2, 0.2, 0.2);
-    indomie1b.rotation.set(4.2, 0, 9.5);
+//indomie2 (indomie aceh) 
+var indomie_aceh;
+for (let i = 0; i < 6; i++) {
+    indomie_aceh  = await loadIndomie2(-2+i*0.75, -1.2, -0.8);;
+
 }
 
-if (indomie1c) {
-    indomie1c.position.set(0, -0.43, -0.8);
-    indomie1c.scale.set(0.2, 0.2, 0.2);
-    indomie1c.rotation.set(4.2, 0, 9.5);
+//indomie3 (indomie rendang) 
+var indomie_rendang;
+for (let i = 0; i < 6; i++) {
+    indomie_rendang = await loadIndomie3(-2+i*0.75, -2, -0.8);;
+
+}
+//indomie4 (indomie ayamPop) 
+var indomie_ayamPop;
+for (let i = 0; i < 6; i++) {
+    indomie_ayamPop  = await loadIndomie4(-2+i*0.75, -2.7, -0.8);;
+
 }
 
-if (indomie1d) {
-    indomie1d.position.set(1, -0.43, -0.8);
-    indomie1d.scale.set(0.2, 0.2, 0.2);
-    indomie1d.rotation.set(4.2, 0, 9.5);
-}
+let meja = loadMeja(-3.5, -3.2, 2)
+meja = loadMeja(3.5, -3.2, 2)
 
-if (indomie1e) {
-    indomie1e.position.set(2, -0.43, -0.8);
-    indomie1e.scale.set(0.2, 0.2, 0.2);
-    indomie1e.rotation.set(4.2, 0, 9.5);
-}
 
-const indomie2a = await loadIndomie2();
-const indomie2b = await loadIndomie2();
-const indomie2c = await loadIndomie2();
-const indomie2d = await loadIndomie2();
-const indomie2e = await loadIndomie2();
-
-if (indomie2a) {
-    indomie2a.position.set(-2, -1.2, -0.8);
-    indomie2a.scale.set(0.2, 0.2, 0.2);
-    indomie2a.rotation.set(4.2, 0, 9.5);
-}
-
-if (indomie2b) {
-    indomie2b.position.set(-1, -1.2, -0.8);
-    indomie2b.scale.set(0.2, 0.2, 0.2);
-    indomie2b.rotation.set(4.2, 0, 9.5);
-}
-
-if (indomie2c) {
-    indomie2c.position.set(0, -1.2, -0.8);
-    indomie2c.scale.set(0.2, 0.2, 0.2);
-    indomie2c.rotation.set(4.2, 0, 9.5);
-}
-
-if (indomie2d) {
-    indomie2d.position.set(1, -1.2, -0.8);
-    indomie2d.scale.set(0.2, 0.2, 0.2);
-    indomie2d.rotation.set(4.2, 0, 9.5);
-}
-
-if (indomie2e) {
-    indomie2e.position.set(2, -1.2, -0.8);
-    indomie2e.scale.set(0.2, 0.2, 0.2);
-    indomie2e.rotation.set(4.2, 0, 9.5);
-}
-
-const indomie3a = await loadIndomie3();
-const indomie3b = await loadIndomie3();
-const indomie3c = await loadIndomie3();
-const indomie3d = await loadIndomie3();
-const indomie3e = await loadIndomie3();
-
-if (indomie3a) {
-    indomie3a.position.set(-2, -2, -0.8);
-    indomie3a.scale.set(0.2, 0.2, 0.2);
-    indomie3a.rotation.set(4.2, 0, 9.5);
-}
-
-if (indomie3b) {
-    indomie3b.position.set(-1, -2, -0.8);
-    indomie3b.scale.set(0.2, 0.2, 0.2);
-    indomie3b.rotation.set(4.2, 0, 9.5);
-}
-
-if (indomie3c) {
-    indomie3c.position.set(0, -2, -0.8);
-    indomie3c.scale.set(0.2, 0.2, 0.2);
-    indomie3c.rotation.set(4.2, 0, 9.5);
-}
-
-if (indomie3d) {
-    indomie3d.position.set(1, -2, -0.8);
-    indomie3d.scale.set(0.2, 0.2, 0.2);
-    indomie3d.rotation.set(4.2, 0, 9.5);
-}
-
-if (indomie3e) {
-    indomie3e.position.set(2, -2, -0.8);
-    indomie3e.scale.set(0.2, 0.2, 0.2);
-    indomie3e.rotation.set(4.2, 0, 9.5);
-}
-
-const indomie4a = await loadIndomie4();
-const indomie4b = await loadIndomie4();
-const indomie4c = await loadIndomie4();
-const indomie4d = await loadIndomie4();
-const indomie4e = await loadIndomie4();
-
-if (indomie4a) {
-    indomie4a.position.set(-2, -2.7, -0.8);
-    indomie4a.scale.set(0.2, 0.2, 0.2);
-    indomie4a.rotation.set(4.2, 0, 9.5);
-}
-
-if (indomie4b) {
-    indomie4b.position.set(-1, -2.7, -0.8);
-    indomie4b.scale.set(0.2, 0.2, 0.2);
-    indomie4b.rotation.set(4.2, 0, 9.5);
-}
-
-if (indomie4c) {
-    indomie4c.position.set(0, -2.7, -0.8);
-    indomie4c.scale.set(0.2, 0.2, 0.2);
-    indomie4c.rotation.set(4.2, 0, 9.5);
-}
-
-if (indomie4d) {
-    indomie4d.position.set(1, -2.7, -0.8);
-    indomie4d.scale.set(0.2, 0.2, 0.2);
-    indomie4d.rotation.set(4.2, 0, 9.5);
-}
-
-if (indomie4e) {
-    indomie4e.position.set(2, -2.7, -0.8);
-    indomie4e.scale.set(0.2, 0.2, 0.2);
-    indomie4e.rotation.set(4.2, 0, 9.5);
-}
-
-let lookSpeed = 0.05; 
-control.lookSpeed = lookSpeed;
-document.addEventListener('keydown', (event) => {
-    switch (event.code) {
-        case 'ArrowUp':
-            control.moveForward(100); // Pergi ke depan
-            break;
-        case 'ArrowDown':
-            control.moveForward(-100); // Pergi ke belakang
-            break;
-        case 'ArrowLeft':
-            control.moveRight(-100); // Pergi ke kiri
-            break;
-        case 'ArrowRight':
-            control.moveRight(100); // Pergi ke kanan
-            break;
+let isJumping = false;
+let jumpStartTime;
+document.addEventListener('keydown', function (event) {
+    if (controlsEnabled) {
+        switch (event.key) {
+            case 'w':
+                controls.moveForward(0.1);
+                break;
+            case 's':
+                controls.moveForward(-0.1);
+                break;
+            case 'a':
+                controls.moveRight(-0.1);
+                break;
+            case 'd':
+                controls.moveRight(0.1);
+                break;
+            case 'ArrowUp':
+                cam.position.y += 0.1;
+                break;
+            case 'ArrowDown':
+                cam.position.y -= 0.1;
+                break;
+            case ' ':
+                if (!isJumping) {
+                    controls.getObject().position.y += 1;
+                    isJumping = true;
+                    jumpStartTime = Date.now();
+                    pullDownEffect();
+                }
+                break;
+        }
     }
 });
 
-function animate() {
-    requestAnimationFrame(animate);
-    
-    const delta = clock.getDelta();
-    control.update(delta); // Panggil update untuk menggerakkan kontrol
+function pullDownEffect() {
+    const originalY = cam.position.y;
 
-    renderer.render(scene, cam);
+    function animatePullDown() {
+        const elapsedTime = Date.now() - jumpStartTime;
+        const duration = 200; 
+
+        if (elapsedTime < duration) {
+            const t = elapsedTime / duration;
+            cam.position.y = originalY + 1 - 2 * t; 
+
+            requestAnimationFrame(animatePullDown);
+        } else {
+            isJumping = false;
+            animateReturn();
+        }
+    }
+
+    function animateReturn() {
+        const originalY = cam.position.y;
+
+        function animateUp() {
+            const elapsedTime = Date.now() - jumpStartTime;
+            const duration = 100;
+
+            if (elapsedTime < duration) {
+                const t = elapsedTime / duration;
+                cam.position.y = originalY + 1 - t; 
+
+                requestAnimationFrame(animateUp);
+            } else {
+                cam.position.y = originalY;
+            }
+        }
+
+        requestAnimationFrame(animateUp);
+    }
+
+    requestAnimationFrame(animatePullDown);
 }
-
-animate();
-
 const ambientLight = new THREE.AmbientLight(0xffffff, 5);
 scene.add(ambientLight);
 

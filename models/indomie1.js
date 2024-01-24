@@ -2,7 +2,7 @@ import { loader, scene, cam, renderer } from '../index.js';
 import loadMentah from './mentah.js';
 import * as THREE from 'three';
 
-const loadIndomie1 = () => {
+const loadIndomie1 = (x,y,z) => {
     const sceneIndomie1 = './assets/indomie.gltf';
 
     return new Promise((resolve) => {
@@ -11,15 +11,48 @@ const loadIndomie1 = () => {
             scene.add(indomieModel);
 
             // Set initial properties
-            indomieModel.position.set(-2, -0.43, -0.8);
+            indomieModel.position.set(x, y, z);
             indomieModel.scale.set(0.2, 0.2, 0.2);
             indomieModel.rotation.set(4.2, 0, 9.5);
 
-            const animate = () => {
-                requestAnimationFrame(animate);
-                renderer.render(scene, cam);
-            };
-            animate();
+            // Raycaster setup
+            const raycaster = new THREE.Raycaster();
+            const mouse = new THREE.Vector2();
+
+            function onClick(event) {
+                // Calculate mouse coordinates
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+                // Update the raycaster
+                raycaster.setFromCamera(mouse, cam);
+
+                // Perform raycasting on the indomieModel
+                const intersects = raycaster.intersectObject(indomieModel, true);
+
+                if (intersects.length > 0) {
+                    // Handle the click on the model (indomie)
+                    handleClickOnIndomie();
+                }
+            }
+
+            function handleClickOnIndomie() {
+                // Set camera position and lookAt based on your desired view
+                cam.position.set(-1, -0.5, 1);
+                const lookAtPosition = new THREE.Vector3(-10, -0.7, 3);
+                cam.lookAt(lookAtPosition);
+
+                indomieModel.position.set(-3.55, 0, 1.25);
+                indomieModel.rotation.set(0, 0, 5);
+                loadMentah();
+
+                // Remove the event listener to prevent additional clicks
+                window.removeEventListener('click', onClick);
+                
+            }
+
+            // Event listener for mouse click
+            window.addEventListener('click', onClick);
 
             resolve(indomieModel);
         });
