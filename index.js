@@ -77,6 +77,7 @@ import loadUdang from './models/udang.js';
 import loadbeef from './models/daging.js';
 import loadegg from './models/telurceplok.js';
 import loadTray from './models/tray.js';
+import loadSmoke from './models/smoke.js';
 
 loadKompor();
 loadTray();
@@ -91,6 +92,7 @@ loadMangkok();
 loadUdang();
 loadegg();
 loadbeef();
+loadSmoke();
 
 //indomie1 (indomie goreng) 
 var indomie_goreng;
