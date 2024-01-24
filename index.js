@@ -54,9 +54,12 @@ import loadAir from './models/air.js';
 import loadPanci from './models/panci.js';
 import loadMeja from './models/meja.js';
 import loadSwalayan from './models/swalayan.js';
+import loadOpenSwalayan from './models/open_swalayan.js';
 import loadRak from './models/rak.js';
 import loadLantai from './models/lantai.js';
 import loadAtap from './models/atap.js';
+
+
 
 // loadIndomie2();
 // loadIndomie3();
@@ -71,6 +74,7 @@ loadSwalayan();
 loadRak();
 loadLantai();
 loadAtap();
+loadOpenSwalayan();
 
 //indomie1 (indomie goreng) 
 var indomie_goreng;
