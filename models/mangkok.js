@@ -16,35 +16,27 @@ const loadMangkok = () => {
         const mouse = new THREE.Vector2();
 
         function onClick(event) {
-            // Calculate mouse coordinates
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-            // Update the raycaster
             raycaster.setFromCamera(mouse, cam);
 
-            // Perform raycasting on the MangkokModel
             const intersects = raycaster.intersectObject(model, true);
 
             if (intersects.length > 0) {
-                // Handle the click on the model (Mangkok)
                 handleClickOnMangkok();
             }
         }
 
         function handleClickOnMangkok() {
-            // Set camera position and lookAt based on your desired view
-            cam.position.set(1.5, 0.2, 2); // Adjust the coordinates based on your desired position
-
-            const lookAtPosition = new THREE.Vector3(12, -8, 2); // Adjust the coordinates based on your desired target
+            cam.position.set(1.5, 0.2, 2); 
+            const lookAtPosition = new THREE.Vector3(12, -8, 2); 
             cam.lookAt(lookAtPosition);
             loadMieMangkok();
 
-            // Remove the event listener to prevent additional clicks
             window.removeEventListener('click', onClick);
         }
 
-        // Event listener for mouse click
         window.addEventListener('click', onClick);
 
 

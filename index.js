@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { PointerLockControls } from './node_modules/three/examples/jsm/controls/PointerLockControls.js';
 import { GLTFLoader } from './node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 
+// Dari Youtube
 const cursorElement = document.createElement('div');
 cursorElement.style.width = '20px';
 cursorElement.style.height = '20px';
@@ -10,10 +11,8 @@ cursorElement.style.backgroundColor = 'white';
 cursorElement.style.position = 'absolute';
 cursorElement.style.pointerEvents = 'none';
 
-// Tambahkan elemen ke dalam elemen body
 document.body.appendChild(cursorElement);
 
-// scene, camera, renderer
 const scene = new THREE.Scene();
 const cam = new THREE.PerspectiveCamera(
     45,
@@ -31,6 +30,8 @@ var loader = new GLTFLoader();
 
 export { loader, scene, cam, renderer };
 
+
+// Dari Youtube
 let controlsEnabled = false;
 let controls = new PointerLockControls(cam, document.body);
 
@@ -40,7 +41,6 @@ document.addEventListener('click', function () {
     }
 }, false);
 
-// Listen for lock and unlock events
 controls.addEventListener('lock', function () {
     controlsEnabled = true;
     cursorElement.style.display = "block";
@@ -48,7 +48,7 @@ controls.addEventListener('lock', function () {
 
 controls.addEventListener('unlock', function () {
     controlsEnabled = false;
-    cursorElement.style.display = 'block';
+    cursorElement.style.display = 'none';
 });
 
 document.addEventListener('mousemove', function (event) {
@@ -149,6 +149,7 @@ document.addEventListener('keydown', function (event) {
                 cam.position.y -= 0.1;
                 break;
             case ' ':
+                // Dari ChatGPT
                 if (!isJumping) {
                     controls.getObject().position.y += 1;
                     isJumping = true;
@@ -160,6 +161,7 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
+// Dari ChatGPT
 function pullDownEffect() {
     const originalY = cam.position.y;
 

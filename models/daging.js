@@ -44,7 +44,6 @@ const loadbeef = () => {
             
         }
         window.addEventListener('click', onClick);
-        
     });
 };
 

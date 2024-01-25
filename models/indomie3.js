@@ -36,10 +36,8 @@ const loadIndomie3 = (x, y, z) => {
             }
 
             function handleClickOnIndomie() {
-                // Set camera position and lookAt based on your desired view
-                cam.position.set(-1, -0.5, 1); // Adjust the coordinates based on your desired position
-
-                const lookAtPosition = new THREE.Vector3(-10, -0.7, 3); // Adjust the coordinates based on your desired target
+                cam.position.set(-1, -0.5, 1); 
+                const lookAtPosition = new THREE.Vector3(-10, -0.7, 3); 
                 cam.lookAt(lookAtPosition);
 
                 indomieModel.position.set(-3.55, 0, 1.25);
@@ -47,26 +45,21 @@ const loadIndomie3 = (x, y, z) => {
                 indomieModel.rotation.set(0, 0, 5);
                 loadMentah();
 
-                // Remove the event listener to prevent additional clicks
                 window.removeEventListener('click', onClick);
 
-                // Set a timeout to revert the model to its initial position after a delay (in milliseconds)
                 setTimeout(() => {
                     resetIndomiePosition();
-                }, 3000); // Change 3000 to the desired delay in milliseconds
+                }, 3000); 
             }
 
             function resetIndomiePosition() {
-                // Set the model back to its initial position
                 indomieModel.position.set(x, y, z);
                 indomieModel.rotation.set(4.2, 0, 9.5);
                 indomieModel.scale.set(0.2, 0.2, 0.2);
 
-                // Reattach the event listener for future clicks
                 window.addEventListener('click', onClick);
             }
 
-            // Event listener for mouse click
             window.addEventListener('click', onClick);
 
             resolve(indomieModel);

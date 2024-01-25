@@ -1,20 +1,16 @@
 import { loader, scene, cam, renderer } from '../index.js';
-import * as THREE from 'three';
-import loadMatang from './matang.js';
+import * as THREE from 'three'
 
-const loadPanci = () => {
+const loadSmoke = () => {
     const sceneSmoke = './assets/smoke.glb';
 
     loader.load(sceneSmoke, (gltf) => {
         const model = gltf.scene;
         scene.add(model);
-        model.position.set(-3.55, -1.25, 1.25);
-        model.scale.set(0.05, 0.05, 0.05);
-        model.rotation.set(0, 1.58, 0)
+        model.position.set(-3.55, -0.9, 0.75);
+        model.scale.set(0.045, 0.045, 0.045);
+        model.rotation.set(1.8, 0, 0);
 
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
-        
         function onClick(event) {
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -22,42 +18,51 @@ const loadPanci = () => {
             const intersects = raycaster.intersectObject(model, true);
 
             if (intersects.length > 0) {
-                handleClickOnPanci();
+                handleClickOnSmoke();
             }
         }
 
-        function handleClickOnPanci() {
-            cam.position.set(-1.2, -0.5, 2.4); 
+        function handleClickOnSmoke() {
+            cam.position.set(-1.2, -0.5, 2.4);
 
-            const lookAtPosition = new THREE.Vector3(-12, -1.3, 6); 
+            const lookAtPosition = new THREE.Vector3(-12, -1.3, 6);
             cam.lookAt(lookAtPosition);
 
-            model.position.set(-3.55, 0, 2.85)
+            model.position.set(-3.55, 0.4, 2.78);
             model.rotation.set(2.8, -1, 0);
-            loadMatang();
 
             window.removeEventListener('click', onClick);
 
             setTimeout(() => {
-                resetPanciPosition();
-            }, 3000); 
+                resetSmokePosition();
+            }, 3000);
         }
 
-        function resetPanciPosition() {
-            model.position.set(-3.55, -1.25, 1.25);
-            model.rotation.set(0, 1.58, 0);
+        function resetSmokePosition() {
+            model.position.set(-3.55, -0.9, 0.75);
+            model.rotation.set(1.8, 0, 0);
 
             window.addEventListener('click', onClick);
         }
 
-        window.addEventListener('click', onClick);
+        // Dari Youtube/Internet
+        if (gltf.animations && gltf.animations.length > 0) {
+            const mixer = new THREE.AnimationMixer(model);
+            const clips = gltf.animations;
+            const action = mixer.clipAction(clips[0]);
+            action.play();
 
-        const animate = () => {
-            requestAnimationFrame(animate);
-            renderer.render(scene, cam);
-        };
-        animate();
+            const clock = new THREE.Clock();
+            function animate()  {
+                const deltaTime = clock.getDelta();
+                mixer.update(deltaTime);
+                renderer.render(scene, cam);
+            }
+            renderer.setAnimationLoop(animate);
+        } else {
+            console.error("No animations found in the GLTF file.");
+        }
     });
 };
 
-export default loadPanci;
+export default loadSmoke;
